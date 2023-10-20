@@ -4,7 +4,7 @@ FROM --platform=linux/arm/v7 python:3.11-alpine3.17
 ENV \
     HAVERSION="2023.10.3" \
     PIPFLAGS="--no-cache-dir --use-deprecated=legacy-resolver" \
-    PYTHONPATH="${PYTHONPATH}:/pip-packages"
+    PYTHONPATH="${PYTHONPATH}:/pip-packages" 
     
 # necessary args to compile grpcio on arm32v7
 ARG GRPC_BUILD_WITH_BORING_SSL_ASM=false
@@ -24,7 +24,6 @@ RUN \
     eudev-dev \
     ffmpeg-dev \
     gcc \
-    git \
     glib-dev \
     g++ \
     jq \
@@ -38,7 +37,6 @@ RUN \
     postgresql-dev \
     unixodbc-dev \
     unzip && \
-    
   echo "**** install runtime packages ****" && \
   apk add --no-cache \
     bluez \
@@ -58,12 +56,9 @@ RUN \
     openssh-client \
     openssl \
     postgresql-libs \
+    py3-pip \
     tiff
   
-  # troubleshoot rust build problems
-  RUN apk add --no-cache \
-      llvm && \
-      curl https://static.rust-lang.org/rustup/dist/armv7-unknown-linux-gnueabihf/rustup-init | sh
   
 # make directories 
 RUN echo "**** make directories ****" && \
@@ -78,19 +73,15 @@ RUN echo "**** get HA requirements & constraints ****" && \
     wget -P homeassistant/homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/homeassistant/package_constraints.txt
 
 RUN echo "**** pip install packages ****" && \
-    pip3 install --upgrade pip && \
+    python3 -m ensurepip --upgrade && \
     pip3 install --target /pip-packages --no-cache-dir --upgrade \
         distlib && \
     pip3 install --no-cache-dir --upgrade \
         cython \
+        "pip>=21.0,<22.1" \
         pyparsing \
         setuptools \
         wheel
-
-# troubleshoot rust build problems
-RUN BCRYPT_VER=$(grep "bcrypt" homeassistant/requirements.txt) && \
-  pip install ${PIPFLAGS} \
-    "${BCRYPT_VER}" && \
 
 # pip install from requirements
 RUN echo "**** pip install requirements ****" && \
