@@ -79,11 +79,10 @@ RUN echo "**** pip install packages ****" && \
         distlib && \
     pip3 install --no-cache-dir --upgrade \
         cython \
-        "pip>=21.0,<22.1" \
+        "pip>=21.0" \
         pyparsing \
         setuptools \
-        wheel \
-        pip3
+        wheel
 
 # pip install from requirements
 RUN echo "**** pip install requirements ****" && \
