@@ -4,7 +4,8 @@ FROM --platform=linux/arm/v7 python:3.11-alpine3.17
 ENV \
     HAVERSION="2023.10.3" \
     PIPFLAGS="--no-cache-dir --use-deprecated=legacy-resolver" \
-    PYTHONPATH="${PYTHONPATH}:/pip-packages" 
+    PYTHONPATH="${PYTHONPATH}:/pip-packages" \ 
+    CARGO_NET_GIT_FETCH_WITH_CLI=true
     
 # necessary args to compile grpcio on arm32v7
 ARG GRPC_BUILD_WITH_BORING_SSL_ASM=false
