@@ -82,7 +82,8 @@ RUN echo "**** pip install packages ****" && \
         "pip>=21.0,<22.1" \
         pyparsing \
         setuptools \
-        wheel
+        wheel \
+        pip3
 
 # pip install from requirements
 RUN echo "**** pip install requirements ****" && \
