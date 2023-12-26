@@ -37,6 +37,7 @@ RUN \
     openblas-dev \
     postgresql-dev \
     unixodbc-dev \
+    git \
     unzip && \
   echo "**** install runtime packages ****" && \
   apk add --no-cache \
