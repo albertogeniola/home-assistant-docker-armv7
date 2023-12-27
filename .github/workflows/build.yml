@@ -45,7 +45,7 @@ jobs:
       - name: Push via shell command
         if: env.BUILD_ARGS != '--test'
         run: |
-          # docker load --input /tmp/image.tar
+          docker load --input /tmp/image.tar
           docker push ghcr.io/albertogeniola/home-assistant-docker-armv7:latest
       - name: Push via action
         if: env.BUILD_ARGS != '--test'
