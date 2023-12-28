@@ -30,6 +30,8 @@ jobs:
           context: .
           outputs: type=docker,dest=/tmp/image.tar
           tags: ghcr.io/albertogeniola/home-assistant-docker-armv7:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
