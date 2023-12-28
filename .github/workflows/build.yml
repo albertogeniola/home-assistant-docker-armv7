@@ -55,5 +55,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: albertogeniola/home-assistant-docker-armv7:latest
+          tags: ghcr.io/albertogeniola/home-assistant-docker-armv7:latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
