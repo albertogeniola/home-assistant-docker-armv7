@@ -59,16 +59,16 @@ RUN \
     openssl \
     postgresql-libs \
     py3-pip \
-    tiff \
-&& echo "**** make directories ****" && \
+    tiff && \
+echo "**** make directories ****" && \
     mkdir /config && \
     mkdir /homeassistant && \
-    mkdir /homeassistant/homeassistant \
-&& echo "**** get HA requirements & constraints ****" && \
+    mkdir /homeassistant/homeassistant && \
+echo "**** get HA requirements & constraints ****" && \
     wget -P homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/requirements.txt && \
     wget -P homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/requirements_all.txt && \
-    wget -P homeassistant/homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/homeassistant/package_constraints.txt \
-&& echo "**** pip install packages ****" && \
+    wget -P homeassistant/homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/homeassistant/package_constraints.txt && \
+echo "**** pip install packages ****" && \
     python3 -m ensurepip --upgrade && \
     pip3 install --target /pip-packages --no-cache-dir --upgrade \
         distlib && \
@@ -77,16 +77,16 @@ RUN \
         "pip>=21.0" \
         pyparsing \
         setuptools \
-        wheel \
-&& echo "**** pip install requirements ****" && \
+        wheel && \
+echo "**** pip install requirements ****" && \
     pip3 install ${PIPFLAGS} \
-        -r homeassistant/requirements.txt \
-&& echo "**** pip install requirments_all ****" && \
+        -r homeassistant/requirements.txt && \
+echo "**** pip install requirments_all ****" && \
     pip3 install ${PIPFLAGS} \
-        -r homeassistant/requirements_all.txt \
-&& echo "**** pip install HA ****" && \
+        -r homeassistant/requirements_all.txt && \
+echo "**** pip install HA ****" && \
     pip3 install homeassistant==${HAVERSION} && \
-&& echo "**** cleanup ****" && \
+echo "**** cleanup ****" && \
   apk del --purge \
     build-dependencies && \
   for cleanfiles in *.pyc *.pyo; \
