@@ -1,4 +1,4 @@
-FROM --platform=linux/arm/v7 python:3.11-alpine3.17
+FROM --platform=linux/arm/v7 python:3.11-alpine3.19
 
 # environment settings
 ENV \
