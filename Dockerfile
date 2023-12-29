@@ -2,7 +2,7 @@ FROM --platform=linux/arm/v7 python:3.11-alpine3.17
 
 # environment settings
 ENV \
-    HAVERSION="2023.10.3" \
+    HAVERSION="2023.12.4" \
     PIPFLAGS="--no-cache-dir --use-deprecated=legacy-resolver" \
     PYTHONPATH="${PYTHONPATH}:/pip-packages" \ 
     CARGO_NET_GIT_FETCH_WITH_CLI=true
