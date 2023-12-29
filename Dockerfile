@@ -59,22 +59,16 @@ RUN \
     openssl \
     postgresql-libs \
     py3-pip \
-    tiff
-  
-  
-# make directories 
-RUN echo "**** make directories ****" && \
+    tiff \
+&& echo "**** make directories ****" && \
     mkdir /config && \
     mkdir /homeassistant && \
-    mkdir /homeassistant/homeassistant
-
-# get HA requirements and constraints 
-RUN echo "**** get HA requirements & constraints ****" && \
+    mkdir /homeassistant/homeassistant \
+&& echo "**** get HA requirements & constraints ****" && \
     wget -P homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/requirements.txt && \
     wget -P homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/requirements_all.txt && \
-    wget -P homeassistant/homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/homeassistant/package_constraints.txt
-
-RUN echo "**** pip install packages ****" && \
+    wget -P homeassistant/homeassistant/ https://raw.githubusercontent.com/home-assistant/core/${HAVERSION}/homeassistant/package_constraints.txt \
+&& echo "**** pip install packages ****" && \
     python3 -m ensurepip --upgrade && \
     pip3 install --target /pip-packages --no-cache-dir --upgrade \
         distlib && \
@@ -83,21 +77,26 @@ RUN echo "**** pip install packages ****" && \
         "pip>=21.0" \
         pyparsing \
         setuptools \
-        wheel
-
-# pip install from requirements
-RUN echo "**** pip install requirements ****" && \
+        wheel \
+&& echo "**** pip install requirements ****" && \
     pip3 install ${PIPFLAGS} \
-        -r homeassistant/requirements.txt
-        
-RUN echo "**** pip install requirments_all ****" && \
+        -r homeassistant/requirements.txt \
+&& echo "**** pip install requirments_all ****" && \
     pip3 install ${PIPFLAGS} \
-        -r homeassistant/requirements_all.txt
-
-# pip install HA
-RUN echo "**** pip install HA ****" && \
+        -r homeassistant/requirements_all.txt \
+&& echo "**** pip install HA ****" && \
     pip3 install homeassistant==${HAVERSION} && \
-    echo "**** wrapping up ****"
+&& echo "**** cleanup ****" && \
+  apk del --purge \
+    build-dependencies && \
+  for cleanfiles in *.pyc *.pyo; \
+    do \
+    find /usr/lib/python3.*  -iname "${cleanfiles}" -exec rm -f '{}' + \
+    ; done && \
+  rm -rf \
+    /tmp/* \
+    /root/.cache \
+    /root/.cargo
 
 # Set the working directory
 VOLUME /config
